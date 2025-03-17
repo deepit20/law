@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Upload Multiple Documents</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        
+         body {
+            background-color: #f8f9fa;
+        }
+        .navbar {
+            background: linear-gradient(135deg, #343a40, #212529);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            padding: 15px;
+        }
+        .navbar-brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #f8d210 !important;
+        }
+
+        .wrapper{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 15px;
+            width: 100%;
+            min-height: 100vh;
+        }
+
+        .box{
+            max-width: 500px;
+            background: #fff;
+            padding: 30px;
+            width: 100%;
+            border-radius: 5px;
+            -webkit-border-radius:5px;
+            -moz-border-radius:5px;
+            -ms-border-radius:5px;
+            -o-border-radius:5px;
+        }
+
+        .upload-area-title{
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .uploadlabel{
+            width: 100%;
+            min-height: 100px;
+            background: #18a7ff0d;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border: 3px dashed #18a7ff82;
+            cursor: pointer;
+        }
+
+        .uploadlabel span{
+            font-size: 70px;
+            color: #18a7ff;
+        }
+
+        .uploadlabel p{
+            color: #18a7ff;
+            font-size: 20px;
+            font-weight:800;
+            font-family: cursive;
+        }
+
+        .uploaded{
+            margin: 30px 0;
+            font-size: 16px;
+            font-weight: 700;
+            color: #a5a5a5;
+        }
+        
+        .showfilebox{
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 10px 0;
+            padding: 10px 15px;
+            box-shadow: #0000000d 0px 0px 0px 1px, #d1d5db3d 0px 0px 0px 1px inset;
+        }
+
+        .showfilebox .left{
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .filetype{
+            background: #18a7ff;
+            color: #fff;
+            padding: 5px 15px;
+            font-size: 20px;
+            text-transform: capitalize;
+            font-weight: 700;
+            border-radius: 3px;
+            -webkit-border-radius:3px;
+            -moz-border-radius:3px;
+            -ms-border-radius:3px;
+            -o-border-radius:3px;
+        }
+
+        .left h3{
+            font-weight: 600;
+            font-size: 18px;
+            color: #292F42;
+            margin: 0;
+        }
+
+        .right span{
+            background: #18a7ff;
+            color: #fff;
+            width: 25px;
+            height: 25px;
+            font-size: 25px;
+            line-height: 25px;
+            display: inline-block;
+            text-align: center;
+            font-weight: 700;
+            cursor: pointer;
+            border-radius: 50%;
+            -webkit-border-radius:50%;
+            -moz-border-radius:50%;
+            -ms-border-radius:50%;
+            -o-border-radius:50%;
+        }
+    </style>
+</head>
+<body>
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">LawFirm</a>
+        </div>
+    </nav>
+    <div class="container wrapper">
+        <div class="box row">
+            <div class="input-bx">
+                <h2 class="upload-area-title">Upload Documents</h2>
+                <form method="post" enctype="multipart/form-data" th:object="${docDto}">
+                    <input type="file" id="upload" th:field="${docDto.docFile}" accept=".doc,.docx,.pdf,.jpeg,.png" hidden>
+                    <label for="upload" class="uploadlabel">
+                        <span><i class="fa fa-cloud-upload"></i></span>
+                        <p>Click To Upload</p>
+    				</label>
+    				
+
+            <div id="filewrapper">
+                <h3 class="uploaded">Uploaded Documents</h3>
+                <!-- <div class="showfilebox">
+                    <div class="left">
+                        <span class="filetype">Pdf</span>
+                        <h3>web.pdf</h3>
+                    </div>
+                    <div class="right">
+                        <span>&#215;</span>
+                    </div>
+                </div> -->
+            </div>
+               <div class="row">
+    		      <div class="offset-sm-4 col-sm-4 d-grid">
+    		        <button type="submit" class="btn btn-primary">Submit</button>
+    		      </div>
+    		      <div class="col-sm-4 d-grid">
+    		        <a class="btn btn-outline-primary" th:href="@{'/client/case/view/' + ${case.id}}" role="button">Cancel</a>
+    		      </div>
+    		    </div>
+    			</form>
+    		</div>
+    	</div>
+    </div>
+
+    <script>
+        window.addEventListener("load",()=>{
+            const input = document.getElementById("upload");
+            const filewrapper = document.getElementById("filewrapper");
+
+            input.addEventListener("change",(e)=>{
+                let fileName = e.target.files[0].name;
+                let filetype = e.target.value.split(".").pop();
+                fileshow(fileName,filetype);
+            })
+
+            const fileshow=(fileName , filetype)=>{
+                const showfileboxElem = document.createElement("div");
+                showfileboxElem.classList.add("showfilebox");
+                const leftElem = document.createElement("div");
+                leftElem.classList.add("left");
+                const filetypeElem = document.createElement("span");
+                filetypeElem.classList.add("filetype");
+                filetypeElem.innerHTML = filetype;
+                leftElem.append(filetypeElem);
+                const filetitleElem = document.createElement("h3");
+                filetitleElem.innerHTML=fileName;
+                leftElem.append(filetitleElem);
+                showfileboxElem.append(leftElem);
+                const rightElem = document.createElement("div");
+                rightElem.classList.add("right");
+                const crossElem = document.createElement("span");
+                crossElem.innerHTML="&#215;";
+                rightElem.append(crossElem);
+                showfileboxElem.append(rightElem);
+                filewrapper.append(showfileboxElem);
+
+                crossElem.addEventListener("click",()=>{
+                    filewrapper.removeChild(showfileboxElem);
+                })
+            }
+        })
+    </script>
+</body>
+</html>

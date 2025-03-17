@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>View Documents</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <style type="text/css">
+    	body {
+     background-color: #f8f9fa;
+}
+        .navbar {
+            background: linear-gradient(135deg, #343a40, #212529);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            padding: 15px;
+        }
+        .navbar-brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #f8d210 !important;
+        }
+        .nav-link {
+            color: #ffffff !important;
+            font-weight: 500;
+            transition: color 0.3s, transform 0.2s;
+        }
+        .nav-link:hover {
+            color: #f8d210 !important;
+            transform: scale(1.1);
+        }
+.dashboard-container {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .card {
+            flex: 1;
+            min-width: 250px;
+            text-align: center;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">LawFirm</a>
+        </div>
+    </nav>
+    
+    <div class="container">
+
+        
+        <!-- Uploaded Documents Section -->	
+<h2 class="mt-5 text-center">Uploaded Documents</h2>
+<div class="list-group">
+    <div th:each="doc : ${doc}" class="list-group-item d-flex justify-content-between align-items-center">
+        <span th:text="${doc.docFileName}"></span>
+        <div class="d-flex gap-2">
+            <a th:href="@{'/admin/case/document/download/' + ${doc.id}}" class="btn btn-primary btn-sm">Download</a>
+            <a th:href="@{'/admin/case/document/delete/' + ${doc.id}}" class="btn btn-danger btn-sm">Delete</a>
+        </div>
+    </div>
+</div>
+    <a th:href="@{/admin/cases}" class="btn btn-secondary">Back</a>
+	
+    </div>
+  
+
+</body>
+</html>

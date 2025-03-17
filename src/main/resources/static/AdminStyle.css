@@ -1,0 +1,33 @@
+body {
+     background-color: #f8f9fa;
+}
+        .navbar {
+            background: linear-gradient(135deg, #343a40, #212529);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            padding: 15px;
+        }
+        .navbar-brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #f8d210 !important;
+        }
+        .nav-link {
+            color: #ffffff !important;
+            font-weight: 500;
+            transition: color 0.3s, transform 0.2s;
+        }
+        .nav-link:hover {
+            color: #f8d210 !important;
+            transform: scale(1.1);
+        }
+.dashboard-container {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .card {
+            flex: 1;
+            min-width: 250px;
+            text-align: center;
+            padding: 20px;
+        }

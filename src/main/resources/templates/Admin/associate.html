@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Our Associates</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+     <link rel="stylesheet" href="AdminStyle.css">
+     <style type="text/css">
+    	body {
+     background-color: #f8f9fa;
+}
+        .navbar {
+            background: linear-gradient(135deg, #343a40, #212529);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            padding: 15px;
+        }
+        .navbar-brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #f8d210 !important;
+        }
+        .nav-link {
+            color: #ffffff !important;
+            font-weight: 500;
+            transition: color 0.3s, transform 0.2s;
+        }
+        .nav-link:hover {
+            color: #f8d210 !important;
+            transform: scale(1.1);
+        }
+.dashboard-container {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .card {
+            flex: 1;
+            min-width: 250px;
+            text-align: center;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">LawFirm</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a class="nav-link" th:href="@{/admin}">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/admin/admins}">Admin</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/admin/associates}">Our Associates</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/admin/clients}">Our Clients</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/admin/cases}">Cases Registerd</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/admin/banks}">Bank List</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Contacted List</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <h2 class="text-center">Our Associates</h2>
+        <a th:href="@{/addLawyer}" class="btn btn-primary mb-3">Add New Lawyer</a>
+        <table class="table table-bordered">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Image</th>
+                    <th>DOB</th>
+                    <th>Specialization</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="lawyer : ${lawyers}">
+                    <td th:text="${lawyer.id}"></td>
+                    <td th:text="${lawyer.firstName+' '+lawyer.lastName}"></td>
+                    <td>
+                       <img th:src="@{'/images/'+${lawyer.imageFileName}}" 
+                       th:alt="${lawyer.firstName}" width="100">
+                    </td>
+                    <td th:text="${lawyer.DOB}"></td>
+                    <td th:text="${lawyer.specialization}"></td>
+                    <td th:text="${lawyer.email}"></td>
+                    <td th:text="${lawyer.phone}"></td>
+                    <td>
+                        <a th:href="@{/associates/edit(id=${lawyer.id})}" class="btn btn-warning">Update</a>
+                        <a th:href="@{/associates/delete(id=${lawyer.id})}" class="btn btn-danger"
+                        onClick="return confirm('Are You Sure?')">Delete</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>
+</body>
+</html>
